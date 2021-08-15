@@ -9,14 +9,27 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("customer")
 class CustomerController {
 
+    val customers = mutableListOf<CustomerModel>()
+
     @GetMapping
-    fun getCustomer(): CustomerModel {
-        return CustomerModel("1", "Marcelo", "rocha.mer21@gmail.com")
+    fun getAll(): MutableList<CustomerModel> {
+        return customers
+    }
+
+    @GetMapping("/{id}")
+    fun getCustomer(@PathVariable id: String): CustomerModel {
+        return customers.filter { it.id == id }.first()
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody customer: PostCustomerRequest) {
+
+        var id = if (customers.isEmpty()) {
+                1
+            } else { customers.last().id.toInt() + 1 }.toString()
+
+        customers.add(CustomerModel("1", customer.name, customer.email))
          println(customer)
     }
 }
