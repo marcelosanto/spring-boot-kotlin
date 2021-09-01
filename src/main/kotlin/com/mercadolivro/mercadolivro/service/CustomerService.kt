@@ -22,8 +22,11 @@ class CustomerService {
 
         var id = if (customers.isEmpty()) {
             1
-        } else { customers.last().id!!.toInt() + 1 }.toString()
+        } else {
+            customers.last().id!!.toInt() + 1
+        }.toString()
 
+        customer.id = id
         customers.add(customer)
 
     }
@@ -34,7 +37,6 @@ class CustomerService {
             it.email = customer.email
         }
     }
-
 
     fun delete(id: String) {
         customers.removeIf { it.id == id }
